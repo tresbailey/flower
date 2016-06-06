@@ -126,9 +126,10 @@ Execute a task by name and wait results
                      taskname, args, kwargs)
 
         try:
+            print ("All tasks: %s" % str(self.capp.tasks))
             task = self.capp.tasks[taskname]
         except KeyError:
-            raise HTTPError(404, "Unknown task '%s'" % taskname)
+            raise HTTPError(404, "Unknown task '%s'" % str(self.capp.tasks))
 
         try:
             self.normalize_options(options)
