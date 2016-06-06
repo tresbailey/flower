@@ -16,6 +16,11 @@
                 <button style="float: right" class="btn btn-danger" onclick="flower.on_task_terminate(event)">Terminate</button>
             {% elif task.state == "RECEIVED" or task.state == "RETRY" %}
                 <button  style="float: right" class="btn btn-danger" onclick="flower.on_task_revoke(event)">Revoke</button>
+            {% else %}
+                <input type="hidden" name="taskname" value="{{task.name}}">
+                <input type="hidden" name="taskargs" value="{{task.args}}">
+                <input type="hidden" name="taskkwargs" value="{{task.kwargs}}">
+                <button  style="float: right" class="btn btn-warning" onclick="flower.on_task_rerun(event)">Re-Run</button>
             {% end %}
           </h2>
         </div>

@@ -351,6 +351,32 @@ var flower = (function () {
         });
     }
 
+    function on_task_rerun(event) {
+        event.preventDefault();
+        event.stopPropagation();
+
+        var taskname = $('input[name=taskname]').val();
+        var taskargs = $('input[name=taskargs]').val();
+        var taskkwargs = $('input[name=taskkwargs]').val();
+
+        $.ajax({
+            type: 'POST',
+            url: url_prefix() + '/api/task/send-task/' + taskname,
+            contentType: "application/json; charset=utf-8",
+            dataType: 'json',
+            data: JSON.stringify({
+                'args': taskargs.slice(1, -1).split(','),
+                'kwargs': JSON.parse(taskkwargs)
+            }),
+            success: function (data) {
+                show_success_alert(data.message);
+            },
+            error: function (data) {
+                show_error_alert(data.responseText);
+            }
+        });
+    }
+
     function on_task_terminate(event) {
         event.preventDefault();
         event.stopPropagation();
@@ -884,6 +910,7 @@ var flower = (function () {
         on_task_timeout: on_task_timeout,
         on_task_rate_limit: on_task_rate_limit,
         on_cancel_task_filter: on_cancel_task_filter,
+        on_task_rerun: on_task_rerun,
         on_task_revoke: on_task_revoke,
         on_task_terminate: on_task_terminate,
     };
